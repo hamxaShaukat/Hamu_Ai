@@ -47,6 +47,7 @@ export const checkApiLimit = async()=>{
 }
 
 export const GetApiCount =async ()=>{
+    try{
     const {userId} =auth();
     if(!userId)
     {
@@ -60,5 +61,10 @@ export const GetApiCount =async ()=>{
     if(!userApiLimit){
         return 0;
     }
-    return userApiLimit.count;
+    return userApiLimit.count;}
+    catch(error)
+    {
+        console.error('Error fetching API count:', error);
+        return 0;
+    }
 };
