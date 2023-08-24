@@ -17,11 +17,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useProModel } from "@/hooks/use-pro-model";
 import { VideoIcon } from "lucide-react";
 import {cn} from"@/lib/utils"
 export default function VideoPage() {
-    const proModel = useProModel();
   const router = useRouter();
   const [video, setVideo] = useState<string>();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,9 +38,7 @@ export default function VideoPage() {
       setVideo(response.data[0])
       form.reset();
     } catch (error: any) {
-      if(error?.response?.status ===403){
-        proModel.onOpen();
-      }
+      console.log(error)
     } finally {
       router.refresh();
     }

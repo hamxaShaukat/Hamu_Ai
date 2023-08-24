@@ -21,10 +21,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ImageIcon,Download } from "lucide-react";
 import {cn} from"@/lib/utils"
-import { useProModel } from "@/hooks/use-pro-model";
 import { Select, SelectTrigger, SelectValue,SelectContent, SelectItem } from "@/components/ui/select";
 export default function ImagePage() {
-    const proModel = useProModel();
   const router = useRouter();
   const [images,setImage]=useState<string[]>([])
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,9 +47,7 @@ export default function ImagePage() {
 
       form.reset();
     } catch (error: any) {
-      if(error?.response?.status ===403){
-        proModel.onOpen();
-      }
+      console.log(error)
     } finally {
       router.refresh();
     }

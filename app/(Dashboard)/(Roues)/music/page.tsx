@@ -19,10 +19,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChatCompletionRequestMessage } from "openai";
 import { Music } from "lucide-react";
-import { useProModel } from "@/hooks/use-pro-model";
 import {cn} from"@/lib/utils"
 export default function MusicPage() {
-  const proModel = useProModel();
   const router = useRouter();
   const [music, setMusic] = useState<string>();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,9 +39,7 @@ export default function MusicPage() {
       setMusic(response.data.audio)
       form.reset();
     } catch (error: any) {
-      if(error?.response?.status ===403){
-        proModel.onOpen();
-      }
+      console.log(error)
     } finally {
       router.refresh();
     }

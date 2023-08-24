@@ -5,7 +5,6 @@ import * as z from "zod";
 import axios from "axios";
 import Empty from "@/components/empty"
 import Loader from "@/components/loader"
-import { useProModel } from "@/hooks/use-pro-model";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -24,7 +23,6 @@ import {cn} from"@/lib/utils"
 import UserAvatar from "@/components/user-avator"
 import BotAvatar from "@/components/bot-avatar"
 export default function Conversation() {
-  const proModel = useProModel();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,9 +49,7 @@ export default function Conversation() {
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
     } catch (error: any) {
-      if(error?.response?.status ===403){
-        proModel.onOpen();
-      }
+      console.log(error)
     } finally {
       router.refresh();
     }

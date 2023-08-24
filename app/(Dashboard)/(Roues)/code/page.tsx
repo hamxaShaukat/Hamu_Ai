@@ -20,13 +20,11 @@ import { useState } from "react";
 import { ChatCompletionRequestMessage } from "openai";
 import { Code } from "lucide-react";
 import {cn} from"@/lib/utils"
-import { useProModel } from "@/hooks/use-pro-model";
 
 import UserAvatar from "@/components/user-avator"
 import BotAvatar from "@/components/bot-avatar"
 import ReactMarkdown from "react-markdown"
 export default function CodePage() {
-  const proModel = useProModel();
 
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -54,9 +52,7 @@ export default function CodePage() {
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
     } catch (error: any) {
-      if(error?.response?.status ===403){
-        proModel.onOpen();
-      }
+      console.log("error:")
     } finally {
       router.refresh();
     }
