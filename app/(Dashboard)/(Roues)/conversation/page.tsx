@@ -3,25 +3,20 @@ import Heading from "../../../../components/heading";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import axios from "axios";
-import Empty from "@/components/empty"
-import Loader from "@/components/loader"
+import Empty from "@/components/empty";
+import Loader from "@/components/loader";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl
- } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChatCompletionRequestMessage } from "openai";
 import { MessageSquare } from "lucide-react";
-import {cn} from"@/lib/utils"
-import UserAvatar from "@/components/user-avator"
-import BotAvatar from "@/components/bot-avatar"
+import { cn } from "@/lib/utils";
+import UserAvatar from "@/components/user-avator";
+import BotAvatar from "@/components/bot-avatar";
 export default function Conversation() {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -41,15 +36,15 @@ export default function Conversation() {
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
-      console.log('newMessages:', newMessages); // Add this line
+      console.log("newMessages:", newMessages); // Add this line
       const response = await axios.post("/api/conversation", {
         messages: newMessages,
       });
-      console.log('response.data:', response.data); // Add this line
+      console.log("response.data:", response.data); // Add this line
       setMessages((current) => [...current, userMessage, response.data]);
       form.reset();
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
     } finally {
       router.refresh();
     }
@@ -111,20 +106,24 @@ export default function Conversation() {
               <Loader />
             </div>
           )}
-          {messages.length===0 && !isLoading && (
+          {messages.length === 0 && !isLoading && (
             <div>
-              <Empty label="Nothing to show here"/>
+              <Empty label="Nothing to show here" />
             </div>
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div
-              key={message.content}
-              className={cn("p-8 w-full flex items-start gap-x-8 rounded-lg",message.role==="user"?"bg-white border border-black/10":"bg-muted")}>
-                {message.role ==="user"?<UserAvatar/>:<BotAvatar/>}
-                <p className="text-sm">
-                {message.content}
-                </p>
+                key={message.content}
+                className={cn(
+                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  message.role === "user"
+                    ? "bg-white border border-black/10"
+                    : "bg-muted"
+                )}
+              >
+                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                <p className="text-sm">{message.content}</p>
               </div>
             ))}
           </div>
@@ -133,4 +132,3 @@ export default function Conversation() {
     </div>
   );
 }
-

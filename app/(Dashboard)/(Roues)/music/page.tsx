@@ -3,23 +3,18 @@ import Heading from "../../../../components/heading";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import axios from "axios";
-import Empty from "@/components/empty"
-import Loader from "@/components/loader"
+import Empty from "@/components/empty";
+import Loader from "@/components/loader";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl
- } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChatCompletionRequestMessage } from "openai";
 import { Music } from "lucide-react";
-import {cn} from"@/lib/utils"
+import { cn } from "@/lib/utils";
 export default function MusicPage() {
   const router = useRouter();
   const [music, setMusic] = useState<string>();
@@ -34,12 +29,12 @@ export default function MusicPage() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-     setMusic(undefined);
-      const response = await axios.post("/api/music",values);
-      setMusic(response.data.audio)
+      setMusic(undefined);
+      const response = await axios.post("/api/music", values);
+      setMusic(response.data.audio);
       form.reset();
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
     } finally {
       router.refresh();
     }
@@ -103,7 +98,7 @@ export default function MusicPage() {
           )}
           {!music && !isLoading && (
             <div>
-              <Empty label="Nothing to show here"/>
+              <Empty label="Nothing to show here" />
             </div>
           )}
           {music && (
@@ -116,4 +111,3 @@ export default function MusicPage() {
     </div>
   );
 }
-

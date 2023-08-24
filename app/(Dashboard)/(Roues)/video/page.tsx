@@ -3,22 +3,17 @@ import Heading from "../../../../components/heading";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import axios from "axios";
-import Empty from "@/components/empty"
-import Loader from "@/components/loader"
+import Empty from "@/components/empty";
+import Loader from "@/components/loader";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl
- } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { VideoIcon } from "lucide-react";
-import {cn} from"@/lib/utils"
+import { cn } from "@/lib/utils";
 export default function VideoPage() {
   const router = useRouter();
   const [video, setVideo] = useState<string>();
@@ -34,11 +29,11 @@ export default function VideoPage() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setVideo(undefined);
-      const response = await axios.post("/api/video",values);
-      setVideo(response.data[0])
+      const response = await axios.post("/api/video", values);
+      setVideo(response.data[0]);
       form.reset();
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
     } finally {
       router.refresh();
     }
@@ -102,11 +97,14 @@ export default function VideoPage() {
           )}
           {!video && !isLoading && (
             <div>
-              <Empty label="Nothing to show here"/>
+              <Empty label="Nothing to show here" />
             </div>
           )}
           {video && (
-            <video controls className="w-full aspect-video mt-8 rounded-lg border bg-black">
+            <video
+              controls
+              className="w-full aspect-video mt-8 rounded-lg border bg-black"
+            >
               <source src={video} />
             </video>
           )}
@@ -115,4 +113,3 @@ export default function VideoPage() {
     </div>
   );
 }
-
